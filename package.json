@@ -17,7 +17,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "start": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "build": "echo 'no build step for backend'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
