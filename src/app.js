@@ -12,7 +12,7 @@ const app = express();
 //Enable CORS for frontend-backend communication
 app.use(cors(
     {
-        origin : process.env.CORS_ORIGIN || 'http://localhost:5173',
+        origin : process.env.CORS_ORIGIN || '*',
         credentials : true
     }
 ));
