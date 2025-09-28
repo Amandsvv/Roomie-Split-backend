@@ -59,8 +59,8 @@ const createGroup = asyncHandler(async (req, res) => {
 
 // ✅ Respond to Invite
 const respondInvite = asyncHandler(async (req, res) => {
-  const { groupId ,notificationId} = req.params;
-  const { status } = req.body; // "accepted" or "rejected"
+  const { groupId} = req.params;
+  const { status ,notificationId } = req.body;
 
   if (!["accepted", "rejected"].includes(status)) {
     throw new ApiError(400, "Invalid status");
