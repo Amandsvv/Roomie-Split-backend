@@ -59,12 +59,19 @@ const createGroup = asyncHandler(async (req, res) => {
 
 // ✅ Respond to Invite
 const respondInvite = asyncHandler(async (req, res) => {
-  const { groupId } = req.params;
+  const { groupId ,notificationId} = req.params;
   const { status } = req.body; // "accepted" or "rejected"
 
   if (!["accepted", "rejected"].includes(status)) {
     throw new ApiError(400, "Invalid status");
   }
+
+  if(!notificationId){
+    throw new ApiError(400, "Notificaton missing")
+  }
+
+  const notification = await Notification.findById(notificationId);
+  if (!notification) throw new ApiError(404, "Notification not found");
 
   const group = await Group.findById(groupId);
   if (!group) throw new ApiError(404, "Group not found");
@@ -79,8 +86,12 @@ const respondInvite = asyncHandler(async (req, res) => {
   member.status = status;
   await group.save();
 
+  notification.response = status;
+  notification.isRead = true;
 
-  res.json({ success: true, message: `Invite ${status}` });
+  await notification.save();
+
+  return res.json({ success: true, message: `Invite ${status}` });
 });
 
 const getMyGroups = asyncHandler(async (req, res) => {
