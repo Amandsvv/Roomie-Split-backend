@@ -88,9 +88,9 @@ const loginUser = asyncHandler(async(req,res) => {
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     const options = {
-        httpOnly:true,
-        secure:false,
-        sameSite:"Lax"
+        httpOnly: true,
+        secure: true,          
+        sameSite: "None"       
     }
 
     res.status(200)
@@ -112,11 +112,11 @@ const logoutUser = asyncHandler(async(req,res)=>{
         }
     )
 
-    const options = {
-        httponly : true,
-        secure: false,
-        sameSite:"Lax"
-    }
+        const options = {
+            httpOnly: true,
+            secure: true,          // must be true in production (HTTPS)
+            sameSite: "None"       // allow cross-site cookies
+        }
 
     return res.status(200)
         .clearCookie("accessToken", options)
