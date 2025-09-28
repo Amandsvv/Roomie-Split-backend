@@ -70,8 +70,8 @@ const respondInvite = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Notificaton missing")
   }
 
-  const notification = await Notification.findById(notificationId);
-  if (!notification) throw new ApiError(404, "Notification not found");
+  const notification = await Notification.findByIdAndDelete(notificationId);
+  if (!notification) throw new ApiError(404, "Notification not Deleted Yet");
 
   const group = await Group.findById(groupId);
   if (!group) throw new ApiError(404, "Group not found");
@@ -85,11 +85,6 @@ const respondInvite = asyncHandler(async (req, res) => {
   // Update member status
   member.status = status;
   await group.save();
-
-  notification.response = status;
-  notification.isRead = true;
-
-  await notification.save();
 
   return res.json({ success: true, message: `Invite ${status}` });
 });
